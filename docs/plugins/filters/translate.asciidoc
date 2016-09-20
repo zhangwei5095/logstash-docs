@@ -2,7 +2,7 @@
 === translate
 
 
-NOTE: This is a community-maintained plugin! It does not ship with Logstash by default, but it is easy to install by running `bin/plugin install logstash-filter-translate`.
+NOTE: This is a community-maintained plugin! It does not ship with Logstash by default, but it is easy to install by running `bin/logstash-plugin install logstash-filter-translate`.
 
 
 A general search and replace tool which uses a configured hash
@@ -204,16 +204,6 @@ set to `foofing`, the destination field will be set to `barfing`.
 Set both `exact => true` AND `regex => `true` if you would like to match using dictionary
 keys as regular expressions. A large dictionary could be expensive to match in this case. 
 
-[[plugins-filters-translate-exclude_tags]]
-===== `exclude_tags`  (DEPRECATED)
-
-  * DEPRECATED WARNING: This configuration item is deprecated and may not be available in future versions.
-  * Value type is <<array,array>>
-  * Default value is `[]`
-
-Only handle events without any of these tags.
-Optional.
-
 [[plugins-filters-translate-fallback]]
 ===== `fallback` 
 
@@ -230,6 +220,7 @@ For example, if we have configured `fallback => "no match"`, using this dictiona
 Then, if logstash received an event with the field `foo` set to `bar`, the destination
 field would be set to `bar`. However, if logstash received an event with `foo` set to `nope`,
 then the destination field would still be populated, but with the value of `no match`.
+This configuration can be dynamic and include parts of the event using the `%{field}` syntax.
 
 [[plugins-filters-translate-field]]
 ===== `field` 
@@ -335,29 +326,5 @@ Example:
 If the event has field `"somefield" == "hello"` this filter, on success,
 would remove the tag `foo_hello` if it is present. The second example
 would remove a sad, unwanted tag as well.
-
-[[plugins-filters-translate-tags]]
-===== `tags`  (DEPRECATED)
-
-  * DEPRECATED WARNING: This configuration item is deprecated and may not be available in future versions.
-  * Value type is <<array,array>>
-  * Default value is `[]`
-
-Only handle events with all of these tags.
-Optional.
-
-[[plugins-filters-translate-type]]
-===== `type`  (DEPRECATED)
-
-  * DEPRECATED WARNING: This configuration item is deprecated and may not be available in future versions.
-  * Value type is <<string,string>>
-  * Default value is `""`
-
-Note that all of the specified routing options (`type`,`tags`,`exclude_tags`,`include_fields`,
-`exclude_fields`) must be met in order for the event to be handled by the filter.
-The type to act on. If a type is given, then this filter will only
-act on messages with the same type. See any input plugin's `type`
-attribute for more.
-Optional.
 
 
